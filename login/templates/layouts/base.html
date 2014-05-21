@@ -1,0 +1,92 @@
+<!DOCTYPE>
+<html>
+<head>
+    <title>{% block title %}BACI Applications{% endblock title %}</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <style>
+        body {
+            padding-bottom: 20px;
+            padding-top: 70px;
+        }
+        .messages {
+            list-style: none;
+            padding-left: 0;
+        }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    {{ form.media }}
+
+
+    {% block css %}{% endblock css %}
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'login:home' %}">BACI Applications</a>
+
+        {% if not user.is_authenticated %}
+            
+            <a href="{% url 'login:login' %}" class="btn btn-default navbar-btn pull-right">Login</a>
+            {% else %}
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+      {% if perms.waitlisty.add_waitlist %}
+        <li {% block activepage %}{% endblock %}><a href=""> <i class="fa fa-child"></i> Waitlisty</a></li>
+      {% endif %}
+      {% if perms.training.add_attendee %}
+        <li {% block activepagetwo %}{% endblock %}><a href="{% url 'training:list' %}"> <i class="fa fa-tasks"></i> Training</a></li>
+      {% endif %}
+      {% if perms.assetdb.add_asset %}
+        <li {% block activepagethree %}{% endblock %}><a href=""> <i class="fa fa-database"></i> Asset Database</a></li>
+      {% endif %}
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.username}} <b class="caret"></b></a> 
+          <ul class="dropdown-menu">
+            <li><a href="#">Account</a></li>
+            <li><a href="#">Change Password</a></li>
+            <li class="divider"></li>
+            <li><a href="{% url 'login:logout' %}">Logout </a></li>
+            <li><a href="#"><i class="fa fa-question-circle"></i> Help</a></li>
+          </ul>
+        </li>
+      </ul>
+      {% endif %}
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+
+</div>
+    
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+
+    {% endif %}
+    <div class="page-header">
+        <div class="container">{% block headline %}{% endblock headline %}</div>
+    </div>
+    <div class="container">
+        {% block content %}{% endblock content %}
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    {% block js %}{% endblock js %}
+</body>
+</html>

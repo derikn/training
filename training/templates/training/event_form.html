@@ -1,0 +1,21 @@
+{% extends 'layouts/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Create | Events | {{ block.super }}{% endblock title %}
+{% block headline %}
+<h1><i class="fa fa-tasks"></i> Create a Training Session</h1>
+{% endblock headline %}
+
+{% block content %}
+<ul class="nav nav-tabs">
+  <li class=""><a href="{% url 'training:list'%} "><i class="fa fa-bookmark"></i> By Course</a></li>
+  <li class=""><a href="{% url 'training:schedule'%}"><i class="fa fa-calendar"></i> By Date</a></li>
+  {% if perms.training.add_event %}
+  <li class="active"><a href="{% url 'training:create'%} ">Create</a></li>
+  {% endif %}
+</ul>
+	<br>
+<div class="col-md-6">
+{% crispy form %}
+</div>
+{% endblock content %}

@@ -1,0 +1,54 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}{{ object.name }} | Lists | {{ block.super }}{% endblock title %}
+
+{% block headline %}<h1><i class="fa fa-tasks"></i> Training Sessions</h1>
+
+{%if perms.training.add_event %}
+    <h2>Managers: Create/Manage in Courses offered by BACI</h2>
+{% endif %}
+{%if not perms.training.add_event %}
+    <h2>Supervisors: Enroll your staff in Courses offered by BACI </h2>
+{% endif %}
+{% endblock headline %}
+
+{% block content %}
+
+<ul class="nav nav-tabs">
+  <li class=""><a href="{% url 'training:list'%} "><i class="fa fa-bookmark"></i> By Course</a></li>
+  <li class="active"><a href="{% url 'training:schedule'%}"><i class="fa fa-calendar"></i> By Date</a></li>
+  {% if perms.training.add_event %}
+  <li><a href="{% url 'training:create'%} ">Create</a></li>
+  {% endif %}
+</ul>
+</br>
+
+{% regroup event_list by when|date:"Y/m/d" as day_list %}
+{% for day in day_list %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h1 class="panel-title">{{ day.grouper }}</h1>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Location</th>
+                <th>Time</th>
+                <th>Host(s)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in day.list %}
+            <tr>
+                <td class="col-md-2"><a href="{{event.get_absolute_url}}"> {{event}} </a></td>
+                <td class="col-md-2">{{ event.where }}</td>
+                <td class="col-md-2">{{ event.when|date:"h:i A" }}</td>
+                <td class="col-md-2">{{ event.host }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endfor %}
+{% endblock %}

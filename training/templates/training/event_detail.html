@@ -1,0 +1,61 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} {{ object.name }} | Lists | {{block.super}} {% endblock %}
+
+{%block headline %}
+<h1> {{object.name}} at {{object.when}} </h1>
+<h2> {{object.where}} </h2>
+Maximum Capacity: {{object.capacity}}
+{% endblock headline %}
+{% block content %}
+<div class="row">
+	<div class = "col-sm-6">
+
+	{% if object.attendees.all %}
+		<div class = "table-responsive">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>First Name</th>
+					<th>Last Name </th>
+					<th>Department </th>
+				</tr>
+			</thead>
+			{% for attendee in object.attendees.all %}
+				{% include 'training/attendee.html' %}
+			{% endfor %}
+		</table>
+		</div>
+	{% else %}
+	There are currently no attendees.
+	{% endif %}
+	</div>
+	{% if attendee_count < object.capacity %}
+	<div class ="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">Add an attendee</h1>
+			</div>
+			<div class="panel-body">
+				{% crispy form %}
+			</div>
+		</div>
+		</div>
+		{% endif %}
+	{% if attendee_count >= object.capacity %}
+	<div class ="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title">Add an attendee</h1>
+			</div>
+			<div class="panel-body">
+				Enrollment is closed.
+			</div>
+		</div>
+		</div>
+	{% endif %}
+
+</div>
+{% endblock %}
