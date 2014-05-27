@@ -10,7 +10,7 @@ urlpatterns = patterns ('',
 	url(r'^create/$', views.EventCreateView.as_view(), name='create'),
 	url(r'^e/(?P<pk>\d+)/$', views.EventUpdateView.as_view(), name='event-update'),
 	url(r'^s/', views.EventScheduleView.as_view(), name='schedule'),
-	url(r'^/del/(?P<pk>\d+)/$', views.EventDeleteView.as_view(),
+	url(r'^del/(?P<pk>\d+)/$', views.EventDeleteView.as_view(),
         name='event-delete'),
 	#AttendeeURLs
 	url(r'^attendee/del/(?P<pk>\d+)/$', views.AttendeeDeleteView.as_view(),
