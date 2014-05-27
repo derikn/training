@@ -5,8 +5,8 @@
 
 {%block headline %}
   {% if perms.training.add_event %}
-  	<a href="{{object.get_upd_url}}" class="btn btn-warning navbar-btn">Edit Session</a>
-	<a href="{{object.get_del_url}}" class="btn btn-danger navbar-btn">Delete Session</a>
+  	<a href="{% url 'training:event-update' pk=object.id %}" class="btn btn-warning navbar-btn">Edit Session</a>
+	<a href="{% url 'training:event-delete' pk=object.id %}" class="btn btn-danger navbar-btn">Delete Session</a>
   {% endif %}
 <div class="list-group">
 <a class="list-group-item active">
