@@ -90,6 +90,18 @@ class EventCreateView(
 		self.object.save()
 		return super(EventCreateView, self).form_valid(form)
 
+class EventUpdateView(
+	views.LoginRequiredMixin,
+	views.SetHeadlineMixin,
+	views.PermissionRequiredMixin,
+	generic.UpdateView):
+	
+	template_name_suffix = '_update_form'
+	form_class = forms.EventUpdateForm
+	headline = 'Update'
+	model = models.Event
+	permission_required = "training.edit_event"
+
 #View Logic to Delete an attendee from an event. requires delete permission and login
 class AttendeeDeleteView(generic.DeleteView,
 	views.PermissionRequiredMixin,
@@ -108,3 +120,15 @@ class AttendeeDeleteView(generic.DeleteView,
 	#pass attendee's parent event id to kwargs
 	def get_success_url(self, pk):
 		return reverse('training:detail', kwargs={'pk': pk})
+
+class EventDeleteView(generic.DeleteView,
+	views.PermissionRequiredMixin,
+	views.LoginRequiredMixin):
+	#set the reference model
+	model = models.Event
+
+	permission_required = "training.delete_event"
+
+	#pass attendee's parent event id to kwargs
+	def get_success_url(self):
+		return reverse('training:list')

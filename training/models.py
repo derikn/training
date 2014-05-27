@@ -42,6 +42,13 @@ class Event(models.Model):
 	def get_absolute_url(self):
 		return reverse('training:detail', kwargs={'pk': self.id})
 
+	def get_del_url(self):
+		return reverse('training:event-delete', kwargs={'pk': self.id})
+
+	def get_upd_url(self):
+		return reverse('training:event-update', kwargs={'pk': self.id})
+
+
 class Attendee(models.Model):
 	event = models.ForeignKey(Event, related_name="attendees")
 	first_name = models.CharField(max_length=30)

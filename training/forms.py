@@ -41,6 +41,29 @@ class EventForm(forms.ModelForm):
             raise ValidationError("Cannot create Event in the past")
         return when
 
+class EventUpdateForm(forms.ModelForm):
+    class Meta:
+        fields = ('name', 'when','where','instructor','description', 'capacity')
+        model = models.Event
+        widgets = {
+            #Use localization
+            'when': DateTimeWidget(attrs={'class':"datetimeinput"}, usel10n = True)
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(EventUpdateForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            'name',
+            'when',
+            'where',
+            'instructor',
+            'capacity',
+            'description',
+            ButtonHolder(
+                Submit('update', 'Update', css_class='btn-primary')
+            )
+        )
 class AttendeeForm(forms.ModelForm):
     class Meta:
         fields = ('first_name', 'last_name', 'email', 'department')
