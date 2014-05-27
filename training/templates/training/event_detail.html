@@ -1,28 +1,61 @@
 {% extends "layouts/base.html" %}
 {% load crispy_forms_tags %}
-
+{% block activepagetwo %} class="active" {% endblock %}
 {% block title %} {{ object.name }} | Lists | {{block.super}} {% endblock %}
 
 {%block headline %}
-<h1> {{object.name}} at {{object.when}} </h1>
-<h2> {{object.where}} </h2>
-Maximum Capacity: {{object.capacity}}
+<div class="list-group">
+<a class="list-group-item active">
+    <h2 class="list-group-item-heading">{{object.name}}</h2>
+  </a>
+  </div>
+
+  	<div class="col-md-3" style="padding:0">
+	  	<div class="list-group">
+		  <div class="list-group-item active">
+		    <h4 class="list-group-item-heading"><small>Time</small></h4>
+		    <h4 class="list-group-item-text">{{object.when}}</h4>
+		    </div>
+		  
+		  <div class="list-group-item active">
+		    <h4 class="list-group-item-heading"><small>Location</small></h4>
+		    <h4 class="list-group-item-text">{{object.where}}</h4>
+		    </div>
+		  <div class="list-group-item active">
+		    <h4 class="list-group-item-heading"><small>Capacity</small></h4>
+		    <h4 class="list-group-item-text">{{object.capacity}}</h4>
+		  </div>
+		</div>
+	</div>
+	<div class="col-md-9" style="padding-left:0">
+		<div class="list-group">
+		    <div class="list-group-item active" style="border:0px">
+		      <h4 class="list-group-item-heading"><small>Description</small></h4>
+		      <p class="list-group-item-text">{{object.description}}</p>
+		    </div>
+		</div>
+	</div>
 {% endblock headline %}
 {% block content %}
+
 <div class="row">
 	<div class = "col-sm-6">
-
+	<div class="panel panel-default">
+	<div class="panel-heading">
+		<h1 class="panel-title">Attendees</h1>
+	</div>
+  <div class="panel-body">
 	{% if object.attendees.all %}
 		<div class = "table-responsive">
 		<table class="table table-hover">
 			<thead>
 				<tr>
 					<th>#</th>
-					<th>First Name</th>
-					<th>Last Name </th>
+					<th>Name</th>
 					<th>Department </th>
 				</tr>
 			</thead>
+	
 			{% for attendee in object.attendees.all %}
 				{% include 'training/attendee.html' %}
 			{% endfor %}
@@ -31,6 +64,8 @@ Maximum Capacity: {{object.capacity}}
 	{% else %}
 	There are currently no attendees.
 	{% endif %}
+	</div>
+	</div>
 	</div>
 	{% if attendee_count < object.capacity %}
 	<div class ="col-sm-6">

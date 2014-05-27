@@ -4,12 +4,12 @@ from django.db import models
 from django.template.defaultfilters import slugify
 
 DEPARTMENTS = (
-	('Admin', 'Administration'),
+	('Administration', 'Administration'),
 	('Carson','Carson'),
 	('Clinton','Clinton'),
 	('Cumber','Cumberland'),
-	('Ds',"D's Place"),
-	('Deer', 'Deer Lake'),
+	("D's Place", "D's Place"),
+	('Deer Lake', 'Deer Lake'),
 	('Eastburn','Eastburn'),
 	('Edmonds','Edmonds'),
 	('Genesis','Genesis'),
@@ -20,7 +20,7 @@ DEPARTMENTS = (
 	('Victory','Victory'),
 	('Willingdon','Willingdon'),
 	('Options', 'Community Options'),
-	('AP', 'Action Packaging'),
+	('Action Packaging', 'Action Packaging'),
 	('BEST', 'BEST'),
 	('Outreach', 'Outreach'),
 	('Childrens', 'Childrens')
@@ -29,32 +29,29 @@ DEPARTMENTS = (
 class Event(models.Model):
 	user = models.ForeignKey(User, related_name="events")
 	name = models.CharField(max_length=255)
-	slug = models.SlugField(max_length=255, blank = True)
 	when = models.DateTimeField()
 	where = models.CharField(max_length=255)
-	host = models.CharField(max_length=255)
-	capacity = models.IntegerField()
-	public = models.BooleanField()
+	instructor = models.CharField(max_length=255)
+	description = models.TextField()
+	capacity = models.PositiveIntegerField()
+	public = models.BooleanField(default=True)
 
 	def __unicode__(self):
 		return self.name
 
-	def get_slug_url(self):
-		return reverse('training:slug', kwargs={'slug': self.slug})
 	def get_absolute_url(self):
 		return reverse('training:detail', kwargs={'pk': self.id})
 
-	def save(self, *args, **kwargs):
-		self.slug = slugify(self.name)
-		super(Event, self).save(*args, **kwargs)
-
 class Attendee(models.Model):
 	event = models.ForeignKey(Event, related_name="attendees")
-	first_name = models.CharField(max_length=255)
-	last_name = models.CharField(max_length=255)
-	email = models.EmailField(max_length=254)
+	first_name = models.CharField(max_length=30)
+	last_name = models.CharField(max_length=30)
+	email = models.EmailField(max_length=45)
 	phone_number = models.CharField(max_length=20)
-	department = models.CharField(max_length=10, choices=DEPARTMENTS)
+	department = models.CharField(max_length=20, choices=DEPARTMENTS)
 
 	def __unicode__(self):
 		return self.first_name
+
+	def get_del_url(self):
+		return reverse('training:attendee-delete', kwargs={'pk': self.id})

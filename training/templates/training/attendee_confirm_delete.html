@@ -1,0 +1,10 @@
+{% extends 'layouts/base.html' %}
+{% block activepagetwo %} class="active" {% endblock %}
+{% block content %}
+<form action="" method="post">{% csrf_token %}
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+    <input type="submit" value="Yes!"/>  <input type="button" value="No..." onclick="window.history.go(-1);"/>
+</form>
+</form>
+
+{% endblock %}

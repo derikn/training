@@ -13,7 +13,7 @@ from . import models
 
 class EventForm(forms.ModelForm):
     class Meta:
-        fields = ('name', 'when','where','host','capacity','public')
+        fields = ('name', 'when','where','instructor','description', 'capacity')
         model = models.Event
         widgets = {
             #Use localization
@@ -27,9 +27,9 @@ class EventForm(forms.ModelForm):
             'name',
             'when',
             'where',
-            'host',
+            'instructor',
             'capacity',
-            'public',
+            'description',
             ButtonHolder(
                 Submit('create', 'Create', css_class='btn-primary')
             )

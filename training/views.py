@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 from django.db.models import Count
 from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
 
@@ -21,6 +21,7 @@ class EventDetailView(
     views.PrefetchRelatedMixin,
     generic.DetailView
 ):
+
     form_class = forms.AttendeeForm
     http_method_names = ['get', 'post']
     model = models.Event
@@ -89,4 +90,21 @@ class EventCreateView(
 		self.object.save()
 		return super(EventCreateView, self).form_valid(form)
 
+#View Logic to Delete an attendee from an event. requires delete permission and login
+class AttendeeDeleteView(generic.DeleteView,
+	views.PermissionRequiredMixin,
+	views.LoginRequiredMixin):
+	#set the reference model
+	model = models.Attendee
 
+	permission_required = "training.delete_attendee"
+	#override delete function to get attendee's parent event id
+	def delete(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		pk = self.object.event.id
+		self.object.delete()
+		return HttpResponseRedirect(self.get_success_url(pk))
+
+	#pass attendee's parent event id to kwargs
+	def get_success_url(self, pk):
+		return reverse('training:detail', kwargs={'pk': pk})

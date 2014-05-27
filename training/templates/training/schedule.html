@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %}{{ object.name }} | Lists | {{ block.super }}{% endblock title %}
-
+{% block title %}{{ object.name }} Date | {{ block.super }}{% endblock title %}
+{% block activepagetwo %} class="active" {% endblock %}
 {% block headline %}<h1><i class="fa fa-tasks"></i> Training Sessions</h1>
 
 {%if perms.training.add_event %}
@@ -35,7 +35,7 @@
                 <th>Course</th>
                 <th>Location</th>
                 <th>Time</th>
-                <th>Host(s)</th>
+                <th>Instructor</th>
             </tr>
         </thead>
         <tbody>
@@ -44,7 +44,7 @@
                 <td class="col-md-2"><a href="{{event.get_absolute_url}}"> {{event}} </a></td>
                 <td class="col-md-2">{{ event.where }}</td>
                 <td class="col-md-2">{{ event.when|date:"h:i A" }}</td>
-                <td class="col-md-2">{{ event.host }}</td>
+                <td class="col-md-2">{{ event.instructor }}</td>
             </tr>
             {% endfor %}
         </tbody>

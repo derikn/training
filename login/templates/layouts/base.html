@@ -37,7 +37,7 @@
 
         {% if not user.is_authenticated %}
             
-            <a href="{% url 'login:login' %}" class="btn btn-default navbar-btn pull-right">Login</a>
+            <a href="{% url 'login:login' %}" class="btn btn-default navbar-btn pull-right" style="margin-right:5px">Login</a>
             {% else %}
     </div>
 
@@ -52,6 +52,9 @@
       {% endif %}
       {% if perms.assetdb.add_asset %}
         <li {% block activepagethree %}{% endblock %}><a href=""> <i class="fa fa-database"></i> Asset Database</a></li>
+        {% endif %}
+        {% if perms.schedule.add_item %}
+        <li {% block activepagefour %}{% endblock %}><a href=""><i class="fa fa-bell"></i> Accountability</a></li>
       {% endif %}
       </ul>
       <ul class="nav navbar-nav navbar-right">
