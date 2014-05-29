@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 from django.db.models import Count
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render_to_response
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
@@ -121,6 +121,7 @@ class AttendeeDeleteView(generic.DeleteView,
 	def get_success_url(self, pk):
 		return reverse('training:detail', kwargs={'pk': pk})
 
+
 class EventDeleteView(generic.DeleteView,
 	views.PermissionRequiredMixin,
 	views.LoginRequiredMixin):
@@ -132,3 +133,12 @@ class EventDeleteView(generic.DeleteView,
 	#pass attendee's parent event id to kwargs
 	def get_success_url(self):
 		return reverse('training:list')
+
+
+def handle_page_not_found_404(request):
+
+	return redirect('training:list')
+
+
+
+
