@@ -20,11 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '#4h8#lchpm&n+x5t3+3(d7$y@1uw^p+kmstq^=0&7x62166pi!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = FALSE
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['app.gobaci.com','www.gobaci.com','www.app.gobaci.com']
 
 
 # Application definition
@@ -62,8 +62,10 @@ WSGI_APPLICATION = 'baci.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'baci_adminapp',
+        'USER': 'baciadmin',
+        'PASSWORD': '#2702norland',
     }
 }
 
@@ -83,8 +85,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
+STATIC_ROOT = '/home/baci/webapps/admin_app_static/'
 STATIC_URL = '/static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+STATICFILES_DIRS = (
+    "/home/baci/webapps/training_app/lib/python2.7/django/contrib/admin/static/admin",
+)
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
