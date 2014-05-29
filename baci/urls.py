@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
 admin.autodiscover()
+from training.views import handle_page_not_found_404
 
 urlpatterns = patterns('',
     # Examples:
@@ -14,3 +15,5 @@ urlpatterns = patterns('',
 
 
 )
+handler404 = handle_page_not_found_404
+handler500 = handle_page_not_found_404
